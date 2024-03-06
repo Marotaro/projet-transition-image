@@ -3,7 +3,10 @@ import sys
 import os
 import random
 import time
+import sched
 import random
+from t import *
+from store import *
 
 from pygame.locals import *
 
@@ -11,15 +14,50 @@ class Config:
     SCREEN_WIDTH = 1595
     SCREEN_HEIGHT = 897
     SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
-    desired_fps = 1
-    saut = 100000
-    
+    nb_pixels = SCREEN_HEIGHT * SCREEN_WIDTH
+    start = to_stamp([2024,3,7,0,4])
+    end = to_stamp([2024,3,7,0,15])
+
+coords = []
+etape = 0
+saut = 0
+notfull = 0
+decimal = 0
+fps = 0
+restart = False
+
+
     
 def quit():
     pygame.quit()
     sys.exit()
 
-def main():
+
+def prepar():
+    global coords, etape, saut, notfull, decimal, fps, restart
+    if S_time() < Config.start:
+        coords = [(x,y) for x in range(Config.SCREEN_WIDTH) for y in range(Config.SCREEN_HEIGHT)]
+        random.shuffle(coords)
+        befor_run(coords)
+        etape = get_stage()
+        saut, decimal, fps = speed(len(coords), Config.start, Config.end)
+        planificateur = sched.scheduler(time.time, time.sleep)
+        planificateur.enterabs(Config.start,1,draw)
+        print("ready")
+        planificateur.run()
+    else:
+        coords = get_pixels()
+        etape = get_stage()
+        notfull = get_notfull()
+        restart = True
+        saut, decimal, fps = speed(len(coords), S_time(), Config.end)
+        print("restarting")
+        draw()
+
+        
+
+def draw():
+    global coords, etape, saut, notfull, decimal, fps, restart
     # Create a clock object
     clock = pygame.time.Clock()
     pygame.init()
@@ -33,14 +71,23 @@ def main():
         print(f"{str(e)}")
         quit()
         
-    nb_pixels = Config.SCREEN_HEIGHT * Config.SCREEN_WIDTH
-    coords = [(x,y) for x in range(Config.SCREEN_WIDTH) for y in range(Config.SCREEN_HEIGHT)]
-    random.shuffle(coords)
-    print("nb pixels", nb_pixels)
+
+    display.blit(surf1,(0,0))
+    pygame.display.update()
+
+
+    print(restart)
+    if restart:
+        print(etape)
+        for i in range(etape):
+            color = surf2.get_at(coords[i])
+            surf1.set_at(coords[i], color)
+        display.blit(surf1, (0, 0))
+        pygame.display.update()
+        restart = False
         
     # Start the main loop
     while True:
-        etape = 0
         # Get events from the event queue
         for event in pygame.event.get():
             # Check for the quit event
@@ -52,10 +99,24 @@ def main():
                 if event.key == K_q:
                     quit()
 
-        for coord in coords[(Config.saut*etape):Config.saut+(Config.saut*etape)]:            
-            color = surf2.get_at(coord)
-            surf1.set_at(coord, color)
-        etape += 1 
+
+
+
+        notfull += decimal
+        try:
+            for i in range(saut + add_pixel(notfull, decimal)):
+                color = surf2.get_at(coords[etape])
+                surf1.set_at(coords[etape], color)
+                etape += 1
+                store_stage(etape)
+        except:
+            for coord in coords[etape:]:
+                color = surf2.get_at(coords[etape])
+                surf1.set_at(coords[etape], color)
+        print(round(etape/Config.nb_pixels, 2)*100)
+        if notfull > 1:
+            notfull -= 1
+        store_notfull(notfull)
 
         # Update the game state
         display.blit(surf1, (0, 0))
@@ -65,6 +126,6 @@ def main():
 
         # Limit the FPS by sleeping for the remainder of the frame time
 
-        clock.tick(Config.desired_fps)
+        clock.tick(fps)
         
-main()
+prepar()
