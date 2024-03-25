@@ -17,6 +17,7 @@ def speed(nb_pixels: int, start_time: float, end_time : float):
         rate = nb_pixels/(time/fps)
         if rate < 1:
             fps += 1
+    print(rate)
     decimal = rate - int(rate)
     rate = int(rate)
     return rate, decimal , fps

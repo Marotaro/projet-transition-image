@@ -15,8 +15,8 @@ class Config:
     SCREEN_HEIGHT = 897
     SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
     nb_pixels = SCREEN_HEIGHT * SCREEN_WIDTH
-    start = to_stamp([2024,3,7,7,21])
-    end = to_stamp([2024,3,7,7,30])
+    start = to_stamp([2024,3,19,14,30])
+    end = to_stamp([2024,3,19,15,])
 
 coords = []
 etape = 0

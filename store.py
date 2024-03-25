@@ -1,51 +1,52 @@
-import random
-import time
-import linecache
+import json
+import os
 
-#à utilisé une fois dans befor_run
-def store_shuffle(shuf : list):
-    with open('shuffel.txt', '+w') as f:
-        test = '\n'.join([','.join(map(str,element)) for element in shuf])
-        f.write(test)
-        f.close()
+#permet de stocker un int ou une liste dans un fichier donner (si le fichier n'existe pas il sera créer)
+#si la liste contien des tuples, les tuples seront changés en des chaines de caractère avec les éléments séparer par une virgule
+def store_in_file(value, name):
+    with open(f'{name}.json', '+w') as f:
+        if isinstance(value, list):
+            object = [','.join(map(str,element)) if isinstance(element, tuple) else element for element in value]
+            json_object = json.dumps(object, indent=len(object))
+            f.write(json_object)
+            f.close()
+        else:
+            json_object = json.dumps(value)
+            f.write(json_object)
+            f.close()
 
-#à utilisé à chaque changement de pixel
-def store_stage(no_stage : int):
-    with open('progression.txt','r+') as f:
-        f.truncate(0)
-        f.writelines(str(no_stage)+'\n')
 
-def store_notfull(notfull : int):
-    with open('notfull.txt','r+') as f:
-        f.truncate(0)
-        f.writelines(str(notfull)+'\n')
-
-#à utilisé seulement quand le temps actuelle n'est pas égal ou sup au temps de départ
-def befor_run(shuf : list):
-    store_shuffle(shuf)
-    store_stage(0)
-
-#ne pas utilisé sauf si vraiment nécessaire
-def get_pixel(no_line: int):
-    return linecache.getline('shuffel.txt', no_line)
+#supprime tous les fichier non nécessaire au fonctionnement initial du programme (fichier de stockage par exemple)
+def remove_unnecessary_file():
+    files_to_keep = ["main.py","requirements.txt","store.py","t.py",".gitignore",".git",]
+    all_files = os.listdir(".")
+    for file_name in all_files:
+        if file_name not in files_to_keep:
+            file_path = os.path.join(".", file_name)
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+    print(all_files)
 
 #pour retransformer une ligne en tuple
 def tup(element):
     pos = element.split(",")
     return (int(pos[0]),int(pos[1]))
 
-#pour récoupérer l'ordre de tous les pixels #important si le programme crash
-def get_pixels():
-    with open('shuffel.txt', 'r') as f:
-        lines = f.readlines()
-    return list(map(tup,lines))
+#permet de récupérer les information d'un fichier, si le fichier contion un simple élément il retourera l'élément, si il contient une liste, il retournera une liste contenant les éléments, si ces éléments était des chaines de caractère ils sont convertis en tuples
+def get_content(name):
+    with open(f'{name}.json', 'r') as f:
+        lines = json.load(f)
+        if isinstance(lines, list):
+            lines = [tup(element) if isinstance(element, str) else element for element in lines]
+        return lines
+        #[(1,3),(3,2)]
+        #[1,4,63,2]
+        #4
 
-#seulement utilisé si le programme crash
-def get_stage():
-    with open('progression.txt','r') as f:
-        return int(f.readline())
-    
-def get_notfull():
-    with open('notfull.txt','r') as f:
-        return float(f.readline()[0:-1])
+remove_unnecessary_file()
 
+#sources utilisées
+#https://www.geeksforgeeks.org/read-json-file-using-python/
+#https://www.geeksforgeeks.org/reading-and-writing-json-to-a-file-in-python/
+#https://www.geeksforgeeks.org/python-check-if-a-given-object-is-list-or-not/
+#https://www.w3resource.com/python-exercises/python-basic-exercise-85.php
