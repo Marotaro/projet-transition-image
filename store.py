@@ -24,7 +24,7 @@ def store_in_file(value, name):
 # programme (fichier de stockage par exemple)
 def remove_unnecessary_files():
     files_to_keep = ["main.py", "requirements.txt",
-                     "store.py", "t.py", ".gitignore", ".git",]
+                     "store.py", "t.py", ".gitignore", ".git","config.py"]
     all_files = os.listdir(".")
     for file_name in all_files:
         if file_name not in files_to_keep:
