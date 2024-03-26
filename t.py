@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 import time
 import pytz
+from config import *
 
 
 #retourne l'heure suisse sous la form d'un nombre float
@@ -10,7 +11,9 @@ def S_time():
     #1711401372.501738
 #retourne le nombre float d'une heure donnée
 def to_stamp(date: list):
-    return datetime(date[0],date[1],date[2],date[3],date[4]).timestamp()
+    dt_object = datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+    timestamp = dt_object.timestamp()
+    return timestamp
 
 def speed(nb_pixels: int, start_time: float, end_time : float):
     time = end_time - start_time
@@ -29,3 +32,5 @@ def add_pixel(notfull : float, decimal: float):
     if (notfull + decimal) >= 1:
         return 1
     return 0
+
+print(to_stamp("2024-03-07 08:00:00"))
