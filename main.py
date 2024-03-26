@@ -46,27 +46,27 @@ def main():
     affichage(Config.SCREEN_SIZE)#données
     # première itération + en cas de crash: calcul du nbr de pixel par seconde par rapport au temps donné (nbr d'étape)
     def prepare():
-        if S_time() < Config.start: #will change
+        if S_time() < to_stamp(Config.start): 
+            remove_unnecessary_files()
             coords = [(x,y) for x in range(Config.SCREEN_WIDTH) for y in range(Config.SCREEN_HEIGHT)]
             random.shuffle(coords)
-            befor_run(coords)
-            etape = get_stage()
+            store_in_file(coords, "coordonnees")
+            store_in_file(0, "etape")
             rate, decimal, fps = speed()
             planificateur = sched.scheduler(time.time, time.sleep)
-            planificateur.enterabs(Config.start,1,draw)
+            planificateur.enterabs(Config.start, 1, draw)
             print("ready")
             planificateur.run()
         else:
-            coords = get_pixels()
-            etape = get_stage()
-            notfull = get_notfull()
-            restart = True
-            saut, decimal, fps = speed(len(coords), S_time(), Config.end)
+            coords = get_content("coordonnees")
+            etape = get_content("etape")
+            #afficher draw2.0
+            rate, decimal, fps = speed()
             print("restarting")
             draw()
 
     # lancer le programme au bon moment
     #   decimal à notfull (if notfull > 1: notfull -= 1, changement = True)
     #   ajouter les pixels + 1 if changement == True
-    #   stoquer étape
+    #   stoquer étape (store in file)
     #   changement = False
