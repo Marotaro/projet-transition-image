@@ -17,7 +17,7 @@ def store_in_file(value, name):
 
 
 #supprime tous les fichier non nécessaire au fonctionnement initial du programme (fichier de stockage par exemple)
-def remove_unnecessary_file():
+def remove_unnecessary_files():
     files_to_keep = ["main.py","requirements.txt","store.py","t.py",".gitignore",".git",]
     all_files = os.listdir(".")
     for file_name in all_files:
@@ -43,8 +43,7 @@ def get_content(name):
         #[1,4,63,2]
         #4
 
-remove_unnecessary_file()
-
+remove_unnecessary_files()
 #sources utilisées
 #https://www.geeksforgeeks.org/read-json-file-using-python/
 #https://www.geeksforgeeks.org/reading-and-writing-json-to-a-file-in-python/
