@@ -129,3 +129,4 @@ def draw():
         clock.tick(fps)
         
 prepar()
+#faire main()
