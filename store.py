@@ -56,9 +56,6 @@ def get_content(name):
         # 4
 
 
-remove_unnecessary_files()
-store_in_file([(1,3),(3,2)],"asud")
-print(get_content("asud"))
 
 # sources utilisées
 # https://www.geeksforgeeks.org/read-json-file-using-python/
