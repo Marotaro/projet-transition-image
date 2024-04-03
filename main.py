@@ -65,6 +65,26 @@ def main():
             print("restarting")
             draw()
 
+    def draw():
+        global notfull, etape
+        if S_time() >= to_stamp(Config.start) and S_time() <= to_stamp (Config.end): 
+            coords = get_content("coordonnees")
+            etape =  get_content("etape")
+            if etape >= len(coords) : 
+                quit()
+            x, y = coords[etape]
+            pygame.draw.rect
+            pygame.display.update()
+            notfull += decimal 
+            if add_pixel(notfull, decimal): 
+                etape += 1 
+                store_in_file (etape, "etape")
+                notfull -= 1
+            store_in_file (notfull, "notfull")
+    
+    time.sleep(1/ Config.desired_fps)
+    draw()
+
     # lancer le programme au bon moment
     #   decimal à notfull (if notfull > 1: notfull -= 1, changement = True)
     #   ajouter les pixels + 1 if changement == True
