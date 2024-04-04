@@ -73,7 +73,13 @@ def main():
             if etape >= len(coords) : 
                 quit()
             x, y = coords[etape]
-            pygame.draw.rect
+            try:
+                imagefile2 = os.path.join('data', Config.image2)
+                surf2 = pygame.image.load(imagefile2)
+            except IOError as e:
+                print(f"{str(e)}")
+                quit()
+            display.blit(surf2, (x,y))
             pygame.display.update()
             notfull += decimal 
             if add_pixel(notfull, decimal): 
@@ -81,9 +87,8 @@ def main():
                 store_in_file (etape, "etape")
                 notfull -= 1
             store_in_file (notfull, "notfull")
-    
-    time.sleep(1/ Config.desired_fps)
-    draw()
+            time.sleep(1/ Config.desired_fps)
+            draw()
 
     # lancer le programme au bon moment
     #   decimal à notfull (if notfull > 1: notfull -= 1, changement = True)
