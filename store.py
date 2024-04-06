@@ -9,10 +9,8 @@ import os
 def store_in_file(value, name):
     with open(f'{name}.json', '+w') as f:
         if isinstance(value, list):
-            object = [','.join(map(str, element)) if isinstance(
-                element, tuple) else element for element in value]
-            json_object = json.dumps(object, indent=len(object))
-            f.write(json_object)
+            data = [",".join(map(str, element)) if isinstance(element, tuple) else element for element in value]
+            f.write(json.dumps(data))
             f.close()
         else:
             json_object = json.dumps(value)
@@ -24,7 +22,7 @@ def store_in_file(value, name):
 # programme (fichier de stockage par exemple)
 def remove_unnecessary_files():
     files_to_keep = ["main.py", "requirements.txt",
-                     "store.py", "t.py", ".gitignore", ".git","config.py"]
+                     "store.py", "t.py", ".gitignore", ".git","config.py","backup old version.py", "test.py"]
     all_files = os.listdir(".")
     for file_name in all_files:
         if file_name not in files_to_keep:
@@ -56,6 +54,9 @@ def get_content(name):
         # 4
 
 
+#store_in_file([(x,y) for x in range(1595) for y in range(895)],"test")
+#test =get_content("test")
+#print(test)
 
 # sources utilisées
 # https://www.geeksforgeeks.org/read-json-file-using-python/

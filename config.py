@@ -1,8 +1,8 @@
 class Config:
     # largeur de l'écran (et des images)
-    SCREEN_WIDTH = 3840
+    SCREEN_WIDTH = 1920
     # hauteur de l'écran (et des images)
-    SCREEN_HEIGHT = 2160
+    SCREEN_HEIGHT = 1080
     
     SCREEN_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
     
@@ -11,10 +11,10 @@ class Config:
     
     # On fait la transition de puis l'image 1 vers l'image 2, situées dans le
     # dossier `data`
-    image1 = 'image1.jpg'
-    image2 = 'image2.png'
+    image1 = 'mha1.png'
+    image2 = 'mha3.png'
     
     # heure de départ
-    start = "2024-03-07 08:00:00"
-    end = "2024-03-07 0:24:00"
+    start = "2024-04-06 18:39:10"
+    end = "2024-04-06 18:45:40"
 
