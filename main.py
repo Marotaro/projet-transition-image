@@ -124,7 +124,7 @@ def main():
             pygame.display.update()
 
             print(f"{round(etape/(Config.SCREEN_HEIGHT*Config.SCREEN_WIDTH)*100)}%")
-            clock.tick(1)
+            clock.tick(Config.desired_fps)
 
     prepare()
 

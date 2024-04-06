@@ -15,6 +15,6 @@ class Config:
     image2 = 'mha3.png'
     
     # heure de départ
-    start = "2024-04-06 18:39:10"
-    end = "2024-04-06 18:45:40"
+    start = "2024-04-06 20:00:10"
+    end = "2024-04-06 20:01:40"
 
