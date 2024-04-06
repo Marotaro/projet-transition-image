@@ -2,8 +2,6 @@ import pygame
 import sys
 import os
 import random
-import time
-import sched
 import random
 from t import *
 from store import *
