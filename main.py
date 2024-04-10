@@ -114,6 +114,11 @@ def main():
                     # quit when Q is pressed
                     if event.key == K_q:
                         quit()
+                        
+                # Check for the fullscreen toggle event
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_F11:
+                    # Toggle fullscreen mode
+                    pygame.display.toggle_fullscreen()
             fl = 0
             extra = 0
             fl += decimal
